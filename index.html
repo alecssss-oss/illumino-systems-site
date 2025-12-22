@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Illumino System - Gestão que ilumina resultados</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #00d4ff;
+            --primary-dark: #00a8cc;
+            --dark: #0a0e27;
+            --darker: #050816;
+            --light: #f8f9fa;
+            --gray: #6c757d;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--darker);
+            color: var(--light);
+            overflow-x: hidden;
+        }
+
+        /* Header */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(10, 14, 39, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1.5rem 5%;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(0, 212, 255, 0.1);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo img {
+            height: 90px;  /* BEM MAIOR! */
+            width: auto;
+            filter: drop-shadow(0 0 15px rgba(0, 212, 255, 0.6));
+        }
+
+        .logo-text-wrapper {
+            display: flex;
+            flex-direction: column;
+            line-height: 1;
+        }
+
+        .logo-text {
+            font-size: 2.2rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary), #ffffff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 2px;
+            margin-bottom: 2px;
+        }
+
+        .logo-subtitle {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--primary);
+            letter-spacing: 3px;
+            opacity: 0.8;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--light);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            transition: width 0.3s;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .cta-button {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: var(--darker);
+            padding: 0.8rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 30px rgba(0, 212, 255, 0.5);
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 8rem 5% 4rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .circuit-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.05;
+            background-image: 
+                linear-gradient(90deg, var(--primary) 1px, transparent 1px),
+                linear-gradient(0deg, var(--primary) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: slideCircuit 20s linear infinite;
+        }
+
+        @keyframes slideCircuit {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(50px, 50px); }
+        }
+
+        .hero-content {
+            max-width: 1400px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-text h1 {
+            font-size: 4rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            line-height: 1.1;
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, var(--primary), #ffffff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-text p {
+            font-size: 1.3rem;
+            color: var(--gray);
+            margin-bottom: 2.5rem;
+            line-height: 1.6;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: var(--darker);
+            padding: 1.2rem 3rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.1rem;
+            transition: all 0.3s;
+            box-shadow: 0 10px 30px rgba(0, 212, 255, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(0, 212, 255, 0.5);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--primary);
+            padding: 1.2rem 3rem;
+            border: 2px solid var(--primary);
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.1rem;
+            transition: all 0.3s;
+        }
+
+        .btn-secondary:hover {
+            background: var(--primary);
+            color: var(--darker);
+        }
+
+        .hero-image {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .floating-card {
+            background: rgba(10, 14, 39, 0.8);
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            border-radius: 20px;
+            padding: 2rem;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 20px 60px rgba(0, 212, 255, 0.2);
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .mockup-screen {
+            width: 500px;
+            height: 350px;
+            background: linear-gradient(135deg, #0a0e27, #1a1e3f);
+            border-radius: 15px;
+            border: 2px solid var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .mockup-glow {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(0, 212, 255, 0.1), transparent);
+            animation: pulse 3s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+
+        /* Features Section */
+        .features {
+            padding: 6rem 5%;
+            background: var(--dark);
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-header h2 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .section-header p {
+            font-size: 1.2rem;
+            color: var(--gray);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2.5rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .feature-card {
+            background: rgba(10, 14, 39, 0.6);
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            border-radius: 20px;
+            padding: 2.5rem;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.1), transparent);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .feature-card:hover::before {
+            opacity: 1;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--primary);
+            box-shadow: 0 20px 40px rgba(0, 212, 255, 0.3);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+
+        .feature-card p {
+            color: var(--gray);
+            line-height: 1.6;
+        }
+
+        /* Pricing Section */
+        .pricing {
+            padding: 6rem 5%;
+            background: var(--darker);
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2.5rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .pricing-card {
+            background: rgba(10, 14, 39, 0.8);
+            border: 2px solid rgba(0, 212, 255, 0.2);
+            border-radius: 25px;
+            padding: 3rem;
+            text-align: center;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .pricing-card.featured {
+            border-color: var(--primary);
+            transform: scale(1.05);
+            box-shadow: 0 30px 60px rgba(0, 212, 255, 0.3);
+        }
+
+        .pricing-badge {
+            position: absolute;
+            top: -15px;
+            right: 30px;
+            background: var(--primary);
+            color: var(--darker);
+            padding: 0.5rem 1.5rem;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+
+        .pricing-card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+        }
+
+        .price {
+            font-size: 3.5rem;
+            font-weight: 800;
+            color: var(--primary);
+            margin: 1.5rem 0;
+        }
+
+        .price span {
+            font-size: 1.2rem;
+            color: var(--gray);
+        }
+
+        .features-list {
+            list-style: none;
+            margin: 2rem 0;
+            text-align: left;
+        }
+
+        .features-list li {
+            padding: 0.8rem 0;
+            border-bottom: 1px solid rgba(0, 212, 255, 0.1);
+            color: var(--gray);
+        }
+
+        .features-list li:before {
+            content: '✓';
+            color: var(--primary);
+            font-weight: bold;
+            margin-right: 1rem;
+        }
+
+        /* Contact Section */
+        .contact {
+            padding: 6rem 5%;
+            background: var(--dark);
+        }
+
+        .contact-content {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .contact-form {
+            background: rgba(10, 14, 39, 0.6);
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            border-radius: 20px;
+            padding: 3rem;
+            margin-top: 3rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 1rem;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            border-radius: 10px;
+            color: var(--light);
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.2);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 150px;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--darker);
+            padding: 3rem 5%;
+            border-top: 1px solid rgba(0, 212, 255, 0.1);
+            text-align: center;
+            color: var(--gray);
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .social-links a {
+            color: var(--primary);
+            font-size: 1.5rem;
+            transition: transform 0.3s;
+        }
+
+        .social-links a:hover {
+            transform: scale(1.2);
+        }
+
+        /* Responsive */
+        @media (max-width: 968px) {
+            .hero-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .hero-text h1 {
+                font-size: 3rem;
+            }
+
+            .hero-buttons {
+                justify-content: center;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .mockup-screen {
+                width: 100%;
+                max-width: 400px;
+            }
+
+            .pricing-card.featured {
+                transform: scale(1);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <nav>
+            <div class="logo">
+                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==" alt="Illumino" id="logoImg">
+                <div class="logo-text-wrapper">
+                    <span class="logo-text">ILLUMINO</span>
+                    <span class="logo-subtitle">SYSTEMS</span>
+                </div>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#home">Início</a></li>
+                <li><a href="#features">Recursos</a></li>
+                <li><a href="#pricing">Preços</a></li>
+                <li><a href="#contact">Contato</a></li>
+            </ul>
+            <a href="#contact" class="cta-button">Teste Grátis</a>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="circuit-bg"></div>
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1>
+                    <span class="gradient-text">Gestão que ilumina</span><br>
+                    resultados
+                </h1>
+                <p>
+                    Sistema completo de gestão para lojas de iluminação e decoração. 
+                    Orçamentos profissionais, controle de estoque e vendas em uma única plataforma.
+                </p>
+                <div class="hero-buttons">
+                    <a href="#contact" class="btn-primary">Começar Agora</a>
+                    <a href="#features" class="btn-secondary">Saiba Mais</a>
+                </div>
+            </div>
+            <div class="hero-image">
+                <div class="floating-card">
+                    <img src="hero_image.png" 
+                         alt="Equipe usando Illumino System" 
+                         style="width: 100%; max-width: 700px; border-radius: 20px; box-shadow: 0 30px 60px rgba(0, 212, 255, 0.4);">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <div class="section-header">
+            <h2><span class="gradient-text">Recursos</span> Poderosos</h2>
+            <p>Tudo que você precisa para gerenciar seu negócio</p>
+        </div>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">📊</div>
+                <h3>Orçamentos Profissionais</h3>
+                <p>Crie orçamentos detalhados em minutos com PDFs personalizados e envio automático.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📦</div>
+                <h3>Controle de Estoque</h3>
+                <p>Gerencie seu inventário com alertas automáticos e controle de entrada/saída.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">💰</div>
+                <h3>Gestão Financeira</h3>
+                <p>Acompanhe vendas, lucros e comissões em tempo real com dashboards intuitivos.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">👥</div>
+                <h3>Gestão de Clientes</h3>
+                <p>Cadastro completo de clientes com histórico de compras e preferências.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📱</div>
+                <h3>Multi-plataforma</h3>
+                <p>Acesse de qualquer lugar: desktop, tablet ou smartphone.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🔒</div>
+                <h3>Segurança Total</h3>
+                <p>Seus dados protegidos com criptografia e backup automático.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section class="pricing" id="pricing">
+        <div class="section-header">
+            <h2>Investimento <span class="gradient-text">Inteligente</span></h2>
+            <p>Licença perpétua - pague uma vez, use para sempre</p>
+        </div>
+        <div class="pricing-grid">
+            <div class="pricing-card">
+                <h3>Básico</h3>
+                <div class="price">R$ 3.997<span style="font-size: 1rem; display: block; margin-top: 0.5rem;">licença única</span></div>
+                <div style="margin: 1rem 0; padding: 0.8rem; background: rgba(0, 212, 255, 0.1); border-radius: 10px;">
+                    <p style="color: var(--primary); font-weight: 600; margin: 0;">+ R$ 997/ano manutenção</p>
+                </div>
+                <ul class="features-list">
+                    <li>1 usuário</li>
+                    <li>Sistema completo</li>
+                    <li>Instalação remota</li>
+                    <li>Treinamento online (2h)</li>
+                    <li>Suporte por email</li>
+                    <li>Atualizações incluídas</li>
+                </ul>
+                <a href="#contact" class="btn-secondary" style="display: inline-block; margin-top: 1rem;">Solicitar Orçamento</a>
+            </div>
+
+            <div class="pricing-card featured">
+                <div class="pricing-badge">MAIS VENDIDO</div>
+                <h3>Profissional</h3>
+                <div class="price">R$ 5.997<span style="font-size: 1rem; display: block; margin-top: 0.5rem;">licença única</span></div>
+                <div style="margin: 1rem 0; padding: 0.8rem; background: rgba(0, 212, 255, 0.1); border-radius: 10px;">
+                    <p style="color: var(--primary); font-weight: 600; margin: 0;">+ R$ 1.497/ano manutenção</p>
+                </div>
+                <ul class="features-list">
+                    <li>Até 5 usuários</li>
+                    <li>Tudo do Básico</li>
+                    <li>Instalação presencial</li>
+                    <li>Treinamento presencial (4h)</li>
+                    <li>Customizações incluídas</li>
+                    <li>Suporte prioritário</li>
+                    <li>Logo personalizado</li>
+                </ul>
+                <a href="#contact" class="btn-primary" style="display: inline-block; margin-top: 1rem;">Quero Este!</a>
+            </div>
+
+            <div class="pricing-card">
+                <h3>Enterprise</h3>
+                <div class="price">R$ 9.997<span style="font-size: 1rem; display: block; margin-top: 0.5rem;">licença única</span></div>
+                <div style="margin: 1rem 0; padding: 0.8rem; background: rgba(0, 212, 255, 0.1); border-radius: 10px;">
+                    <p style="color: var(--primary); font-weight: 600; margin: 0;">+ R$ 2.497/ano manutenção</p>
+                </div>
+                <ul class="features-list">
+                    <li>Usuários ilimitados</li>
+                    <li>Tudo do Profissional</li>
+                    <li>Multi-lojas</li>
+                    <li>Migração de dados incluída</li>
+                    <li>Treinamento completo</li>
+                    <li>Suporte dedicado + WhatsApp</li>
+                    <li>Consultoria mensal</li>
+                </ul>
+                <a href="#contact" class="btn-secondary" style="display: inline-block; margin-top: 1rem;">Falar com Especialista</a>
+            </div>
+        </div>
+        
+        <!-- Benefícios da Licença -->
+        <div style="max-width: 1000px; margin: 4rem auto 0; padding: 2.5rem; background: rgba(0, 212, 255, 0.05); border-radius: 20px; border: 1px solid rgba(0, 212, 255, 0.2);">
+            <h3 style="text-align: center; color: var(--primary); margin-bottom: 2rem; font-size: 1.8rem;">Por que licença perpétua?</h3>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem;">
+                <div style="text-align: center;">
+                    <div style="font-size: 2.5rem; margin-bottom: 1rem;">💰</div>
+                    <h4 style="color: var(--primary); margin-bottom: 0.5rem;">Economia Real</h4>
+                    <p style="color: var(--gray); font-size: 0.95rem;">Pague uma vez. Concorrentes cobram R$ 300-600/mês = R$ 3.600-7.200/ano!</p>
+                </div>
+                <div style="text-align: center;">
+                    <div style="font-size: 2.5rem; margin-bottom: 1rem;">🏆</div>
+                    <h4 style="color: var(--primary); margin-bottom: 0.5rem;">Sistema Seu</h4>
+                    <p style="color: var(--gray); font-size: 0.95rem;">Não é aluguel. O sistema é seu para sempre, sem dependência.</p>
+                </div>
+                <div style="text-align: center;">
+                    <div style="font-size: 2.5rem; margin-bottom: 1rem;">📈</div>
+                    <h4 style="color: var(--primary); margin-bottom: 0.5rem;">ROI Comprovado</h4>
+                    <p style="color: var(--gray); font-size: 0.95rem;">Casa Pagano faturou R$ 1 milhão usando este sistema!</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact" id="contact">
+        <div class="contact-content">
+            <div class="section-header">
+                <h2>Comece <span class="gradient-text">Hoje</span></h2>
+                <p>Entre em contato e transforme sua gestão</p>
+            </div>
+            
+            <!-- Informações de Contato -->
+            <div style="display: flex; justify-content: center; gap: 3rem; margin: 3rem 0; flex-wrap: wrap;">
+                <div style="text-align: center;">
+                    <div style="font-size: 3rem; margin-bottom: 0.5rem;">📧</div>
+                    <p style="color: var(--primary); font-weight: 600; margin-bottom: 0.3rem;">Email</p>
+                    <a href="mailto:contato@illuminosystems.com.br" style="color: var(--light); text-decoration: none;">contato@illuminosystems.com.br</a>
+                </div>
+                <div style="text-align: center;">
+                    <div style="font-size: 3rem; margin-bottom: 0.5rem;">💬</div>
+                    <p style="color: var(--primary); font-weight: 600; margin-bottom: 0.3rem;">WhatsApp</p>
+                    <p style="color: var(--gray); font-size: 0.9rem;">Em breve - Aguarde!</p>
+                </div>
+                <div style="text-align: center;">
+                    <div style="font-size: 3rem; margin-bottom: 0.5rem;">📍</div>
+                    <p style="color: var(--primary); font-weight: 600; margin-bottom: 0.3rem;">Localização</p>
+                    <p style="color: var(--light);">Santos, SP</p>
+                </div>
+            </div>
+            
+            <div class="contact-form">
+                <form>
+                    <div class="form-group">
+                        <label>Nome</label>
+                        <input type="text" placeholder="Seu nome completo" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" placeholder="seu@email.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Telefone</label>
+                        <input type="tel" placeholder="(00) 00000-0000" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Mensagem</label>
+                        <textarea placeholder="Conte-nos sobre seu negócio..."></textarea>
+                    </div>
+                    <button type="submit" class="btn-primary" style="width: 100%; border: none; cursor: pointer;">
+                        Solicitar Demonstração
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="logo" style="margin-bottom: 1rem; justify-content: center;">
+                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==" alt="Illumino" id="footerLogo" style="height: 80px;">
+                <div class="logo-text-wrapper">
+                    <span class="logo-text">ILLUMINO</span>
+                    <span class="logo-subtitle">SYSTEMS</span>
+                </div>
+            </div>
+            <p>Gestão que ilumina resultados</p>
+            <div class="social-links">
+                <a href="#">📘</a>
+                <a href="#">📷</a>
+                <a href="#">🐦</a>
+                <a href="#">💼</a>
+            </div>
+            <p>&copy; 2025 Illumino System. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Carregar logo (substitua pelo caminho correto da imagem)
+        const logoPath = 'illumino_logo.png'; // ← Coloque o arquivo na mesma pasta
+        
+        document.getElementById('logoImg').src = logoPath;
+        document.getElementById('footerLogo').src = logoPath;
+
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+
+        // Form submit
+        document.querySelector('form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Pegar dados do formulário
+            const nome = this.querySelector('input[type="text"]').value;
+            const email = this.querySelector('input[type="email"]').value;
+            const telefone = this.querySelector('input[type="tel"]').value;
+            const mensagem = this.querySelector('textarea').value;
+            
+            // Montar email (abre cliente de email do usuário)
+            const assunto = encodeURIComponent('Solicitação de Demonstração - Illumino Systems');
+            const corpo = encodeURIComponent(
+                `Nome: ${nome}\n` +
+                `Email: ${email}\n` +
+                `Telefone: ${telefone}\n\n` +
+                `Mensagem:\n${mensagem}`
+            );
+            
+            // Abrir cliente de email
+            window.location.href = `mailto:contato@illuminosystems.com.br?subject=${assunto}&body=${corpo}`;
+            
+            // Mensagem de sucesso
+            alert('Obrigado pelo interesse! Seu cliente de email será aberto.\n\nSe não abrir automaticamente, envie para:\ncontato@illuminosystems.com.br');
+        });
+    </script>
+</body>
+</html>
