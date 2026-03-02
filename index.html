@@ -734,7 +734,7 @@
                 <div style="text-align: center;">
                     <div style="font-size: 3rem; margin-bottom: 0.5rem;">📧</div>
                     <p style="color: var(--primary); font-weight: 600; margin-bottom: 0.3rem;">Email</p>
-                    <a href="mailto:contato@illuminosystems.com.br" style="color: var(--light); text-decoration: none;">contato@illuminosystems.com.br</a>
+                    <a href="/cdn-cgi/l/email-protection#71121e1f0510051e31181d1d041c181f1e02080205141c025f121e1c5f1303" style="color: var(--light); text-decoration: none;"><span class="__cf_email__" data-cfemail="dbb8b4b5afbaafb49bb2b7b7aeb6b2b5b4a8a2a8afbeb6a8f5b8b4b6f5b9a9">[email&#160;protected]</span></a>
                 </div>
                 <div style="text-align: center;">
                     <div style="font-size: 3rem; margin-bottom: 0.5rem;">💬</div>
@@ -756,22 +756,25 @@
             </div>
             
             <div class="contact-form">
-                <form>
+                <form action="https://api.web3forms.com/submit" method="POST">
+                    <input type="hidden" name="access_key" value="3eb82534-dcd0-4da0-a754-90e46aee7990">
+                    <input type="hidden" name="subject" value="Novo contato - Illumino Systems">
+                    <input type="hidden" name="redirect" value="https://www.illuminosystems.com.br">
                     <div class="form-group">
                         <label>Nome</label>
-                        <input type="text" placeholder="Seu nome completo" required>
+                        <input type="text" name="name" placeholder="Seu nome completo" required>
                     </div>
                     <div class="form-group">
                         <label>Email</label>
-                        <input type="email" placeholder="seu@email.com" required>
+                        <input type="email" name="email" placeholder="seu@email.com" required>
                     </div>
                     <div class="form-group">
                         <label>Telefone</label>
-                        <input type="tel" placeholder="(00) 00000-0000" required>
+                        <input type="tel" name="phone" placeholder="(00) 00000-0000" required>
                     </div>
                     <div class="form-group">
                         <label>Mensagem</label>
-                        <textarea placeholder="Conte-nos sobre seu negócio..."></textarea>
+                        <textarea name="message" placeholder="Conte-nos sobre seu negócio..."></textarea>
                     </div>
                     <button type="submit" class="btn-primary" style="width: 100%; border: none; cursor: pointer;">
                         Solicitar Demonstração
@@ -802,7 +805,7 @@
         </div>
     </footer>
 
-    <script>
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
         // Carregar logo (substitua pelo caminho correto da imagem)
         const logoPath = 'illumino_logo.png'; // ← Coloque o arquivo na mesma pasta
         
@@ -840,11 +843,4 @@
             );
             
             // Abrir cliente de email
-            window.location.href = `mailto:contato@illuminosystems.com.br?subject=${assunto}&body=${corpo}`;
-            
-            // Mensagem de sucesso
-            alert('Obrigado pelo interesse! Seu cliente de email será aberto.\n\nSe não abrir automaticamente, envie para:\ncontato@illuminosystems.com.br');
-        });
-    </script>
-</body>
-</html>
+            window.location.href = `mailto:contato@illuminosystems.com.br?subject=${assunto}&b
